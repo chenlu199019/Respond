@@ -1,0 +1,183 @@
+ <!DOCTYPE html>
+<html lang="en">
+<!--head-->
+<head>
+<meta charset="utf-8">
+<!--meta tag for responsive function-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<!--linnk to style sheet-->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="Elaps.css" rel="stylesheet">
+<link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
+<!--map script-->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+<script>
+function initialize() {
+	var soc=new google.maps.LatLng(1.295343, 103.773814);
+  var mapOptions = {
+    zoom: 16,
+    center: soc
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var marker = new google.maps.Marker({
+    map: map,
+    position: map.getCenter(),
+    animation: google.maps.Animation.DROP,
+    draggable: true,
+    
+  });
+
+  /*if (navigator.geolocation) {
+     navigator.geolocation.getCurrentPosition(function (position) {
+         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+         map.setCenter(initialLocation);
+     });
+ }
+
+  google.maps.event.addListener(map, 'center_changed', function() {
+    // 3 seconds after the center of the map has changed, pan back to the
+    // marker.
+    window.setTimeout(function() {
+      map.panTo(marker.getPosition());
+    }, 3000);
+  });*/
+
+  var contentString = "<form action='' method='POST'>" + 
+  "Organizer: " + "<input type='text' id='Organizer' name='Organizer'>" +"<br>"+
+  "EventInfo: " + "<input type='text' id='EventInfo' name='EventInfo' style='margin-top:10px;'>" + "<br>"+
+  "<input type='submit' value='submitEvent' id='eventSub_btn' style='position:relative; left:100px; top:10px'>"
+  "</form>";
+
+  var boxText = document.createElement('div');
+  boxText.style.cssText = "border: 1px solid black; margin-top: 8px; background: yellow; padding: 5px; height:100px";
+  //boxText.innerHTML = "City Hall, Sechelt<br>British Columbia<br>Canada";
+  boxText.innerHTML = contentString;
+
+
+  var eventOptions = {
+		 content: boxText
+		,disableAutoPan: false
+		,maxWidth: 0
+		,pixelOffset: new google.maps.Size(-140, 0)
+		,zIndex: null
+		,boxStyle: { 
+		  //background: "url('tipbox.gif') no-repeat"
+		  opacity: 0.75
+		  ,width: "280px"
+		 }
+		,closeBoxMargin: "10px 2px 2px 2px"
+		//,closeBoxURL: "http://www.google.com/mapfiles/close.gif"
+		,infoBoxClearance: new google.maps.Size(1, 1)
+		,isHidden: false
+		,pane: "floatPane"
+		,enableEventPropagation: false
+	};
+		
+	
+	var ib = new InfoBox(eventOptions);
+
+  /*var infoBox = new google.maps.InfoBox({
+  	content:contentString
+  });*/
+
+  google.maps.event.addListener(marker, 'click', function() {
+     ib.open(map,marker)
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<title>Elaps</title>
+</head>
+<body class="container">
+<div class="row">
+	<!--first column the user UI-->
+	<div class="col-md-3" style="background-image:url(nexus.jpg);background-size: 285px 600px;background-repeat:no-repeat;position:relative;top:45px;height:800px;width:360px;">
+	<!--container for user input-->
+		<div class="phone-user" style="height:475px;width:242px;">
+			<div class="col-sm-12">
+				<form class="form-horizontal" name="Form" action="backServer.jsp" method="POST" role="form">
+					<!--condition enter area-->
+					<div class="form-group">
+							<input type="text" class="condition" name="condition" placeholder="enter your interest condition" onkeydown="onkeyup1();" onkeyup="onkeyup1();">
+							<input type="botton" id="add-botton" value="Add" onclick="Add(condition)">
+					</div>
+					<!--entered condition display area-->
+					<div class="from-group">
+						<input type="text" class="condition-list" name="condition-list">
+							<script>
+							(function ($){
+								$(window).load(function(){
+									$(".condition-list").mCustomScrollbar();
+								});
+							});
+							</script>
+					</div>
+					<!--interest region select-->
+					<div class="form-group">
+						<input type="botton" id="submit-btn" value="submit" name="submit" onclick="submit-list();">
+						<script>
+						function submit_list(){
+							if(document.condition-list.value==""){
+								alert("Please enter anything you are interested");
+							}else{
+							<!--connect to server-->			
+							}
+						}
+						</script>	
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--map col-->
+	<div class="col-md-6" style="height:800px;width:720px;">
+		<div id="map-canvas" style="height:700px;width:760px;">
+		</div>
+		
+			<div id="markers" style="position:relative; top:30px; left:450px; width:500px; height:160px">
+				<p style="font-family:arial;color:red;font-size:20px; width:250px; height:54px;"><b>Drag the markers to a new location on the map: </b></p>
+				
+				<div id="m1" class="drag" id="event_type1" style="position:relative;left:0; top:10px;height:32px; width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/ltblue-dot.png')">
+				<label for="event_type1" style="width:50px;position:relative;left:40px;top:10px;" >Event 1</label>
+				</div>
+
+				<div id="m2" class="drag" id="event_type2" style="position:relative;left:0; top:30px;height:32px; width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/orange-dot.png')">
+				<label for="event_type2" style="width:50px;position:relative;left:40px;top:10px;">Event 2</label>
+				</div>
+
+			</div>
+	</div>
+	<!--third colum the user EVENT-->
+    <div class="col-md-3" style="background-image:url(nexus.jpg); background-size:285px 600px;background-repeat:no-repeat;background-position:relative; left:34px; top:45px;height:800px;width:360px;">
+    	<div class="phone-event" style="height:475px;width:242px">
+    	  <form class="form-horizontal" name="Form" action="backServer.jsp" method="POST" role="form">
+    	  <!--condition enter area-->
+					<div class="form-group">
+							<input type="text" class="event" name="event"onkeydown="onkeyup1();" onkeyup="onkeyup1();">
+							<input type="botton" id="add-event" value="Add Event" onclick="Add(event)">
+					</div>
+					<!--entered condition display area-->
+					<div class="from-group"></div>
+		  </form>
+    		
+    	</div>
+			
+	</div>	
+
+</div>
+
+
+<script type="text/javascript" src="javascript/jquery-1.js"></script>
+<script type="text/javascript"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="bootstrap/js/respond.js"></script>
+<script src="jquery.mCustomScrollbar.concat.min.js"></script>
+
+</body>
+</html>
