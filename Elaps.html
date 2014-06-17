@@ -9,8 +9,10 @@
 <!--linnk to style sheet-->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="Elaps.css" rel="stylesheet">
-<link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
+
 <!--map script-->
+<script type="text/javascript" src="javascript/jquery-1.js"></script>
+<script type="text/javascript" src="javascript/jquery-ui-1.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
 <script>
@@ -92,6 +94,14 @@ function initialize() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#m1').draggable();
+			$('#m2').draggable();
+		});
+	</script>
+
 <title>Elaps</title>
 </head>
 <body class="container">
@@ -143,11 +153,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			<div id="markers" style="position:relative; top:30px; left:450px; width:500px; height:160px">
 				<p style="font-family:arial;color:red;font-size:20px; width:250px; height:54px;"><b>Drag the markers to a new location on the map: </b></p>
 				
-				<div id="m1" class="drag" id="event_type1" style="position:relative;left:0; top:10px;height:32px; width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/ltblue-dot.png')">
+				<div id="m1" class="drag" id="event_type1" style="position:relative;left:0; top:10px;height:32px; cursor:move; z-index:100; width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/ltblue-dot.png')">
 				<label for="event_type1" style="width:50px;position:relative;left:40px;top:10px;" >Event 1</label>
 				</div>
 
-				<div id="m2" class="drag" id="event_type2" style="position:relative;left:0; top:30px;height:32px; width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/orange-dot.png')">
+				<div id="m2" class="drag" id="event_type2" style="position:relative;left:0; top:30px;height:32px; cursor:move; z-index:100;width:32px;background-image:url('http://maps.gstatic.com/mapfiles/ms/icons/orange-dot.png')">
 				<label for="event_type2" style="width:50px;position:relative;left:40px;top:10px;">Event 2</label>
 				</div>
 
@@ -173,7 +183,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </div>
 
 
-<script type="text/javascript" src="javascript/jquery-1.js"></script>
 <script type="text/javascript"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script type="bootstrap/js/respond.js"></script>
